@@ -1,9 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const {TIcket} = require('../models/ticket')
+const {Ticket} = require('../models/ticket')
 
-router.get('/getTicketData', (req, res)=>{
-    res.send('Data Sent Successfully!!!')
+router.get('/getAllTickets', async (req, res)=>{
+    try{
+        const response = await Ticket.find()
+        res.status(200).json(response)
+    }catch(error){
+        res.status(400).send("Error: ", error)
+    }
+})
+router.get('/getTicketById', async(req,res)=>{
+    const id = req.body.id;
+
+    try{
+        const response = await Ticket.findById(id);
+        res.status(200).json(response)
+    }catch(error){
+        res.status(400).send('Error: ', error)
+    }
 })
 
 router.post('/postTicketData', async (req,res)=>{
@@ -11,16 +26,17 @@ router.post('/postTicketData', async (req,res)=>{
     const status = req.body.status
 
     try{
-        await TIcket.create({
+        await Ticket.create({
             region: region,
             status: status
         })
-        res.send("Successfully Created Ticket!!!")
+        res.status(200).send("Successfully Created Ticket!!!")
     }catch(error){
-        res.send("Error: ", error)
+        res.status(400).send("Error: ", error)
     }
 
     
 })
+
 
 module.exports = router;

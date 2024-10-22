@@ -1,8 +1,10 @@
 const express = require('express');
+const cors = require('cors')
 require('./db/index')
 const routes = require('./routes/ticket');
 
 const app = express();
+app.use(cors())
 const PORT= process.env.PORT
 
 
