@@ -10,8 +10,8 @@ router.get('/getAllTickets', async (req, res)=>{
         res.status(400).send("Error: ", error)
     }
 })
-router.get('/getTicketById', async(req,res)=>{
-    const id = req.body.id;
+router.get('/getTicketById/:id', async(req,res)=>{
+    const id = req.params.id;
 
     try{
         const response = await Ticket.findById(id);
@@ -36,6 +36,21 @@ router.post('/postTicketData', async (req,res)=>{
     }
 
     
+})
+
+router.patch('/updateTicket/:id', async (req,res)=>{
+    const id = req.params.id
+    const updatedData = req.body
+    try{
+        const response = await Ticket.findByIdAndUpdate(id, updatedData)
+
+        if(!response){
+            return res.status(404).send('User not found')
+        }
+        res.status(200).json('Updated Successfully')
+    }catch(error){
+        console.log("Error: ", error)
+    }
 })
 
 
