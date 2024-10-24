@@ -53,5 +53,16 @@ router.patch('/updateTicket/:id', async (req,res)=>{
     }
 })
 
+router.delete('/deleteById/:id', async(req,res)=>{
+    const id = req.params.id;
+    
+    try{
+        const response = await Ticket.findByIdAndDelete(id)
+        res.status(200).send(response);
+    }catch(error){
+        console.error('Error: ', error)
+    }
+})
+
 
 module.exports = router;
